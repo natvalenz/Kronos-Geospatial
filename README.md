@@ -14,42 +14,42 @@ As a data scientist expert assisting law enforcement, your mission is to make se
 As an analyst, you have the following data at your disposal:
 
 1. A list of vehicle assignments by employee, in CSV format (`car-assignments.csv`)
-1. Employee Last Name
-2. Employee First Name
-3. Car ID (integer)
-4. Current Employment Type (Department; categorical)
-5. Current Employment Title (job title; categorical)
+  1. Employee Last Name
+  2. Employee First Name
+  3. Car ID (integer)
+  4. Current Employment Type (Department; categorical)
+  5. Current Employment Title (job title; categorical)
 2. ESRI shapefiles of Abila and Kronos (in the Geospatial folder)
-1. A CSV file of vehicle tracking data (`gps.csv`)
-2. Timestamp
-3. Car ID (integer)
-4. Latitude
-5. Longitude
+  1. A CSV file of vehicle tracking data (`gps.csv`)
+  2. Timestamp
+  3. Car ID (integer)
+  4. Latitude
+  5. Longitude
 3. A CSV file containing loyalty card transaction data (`loyalty_data.csv`)
-1. Timestamp
-2. Location (name of the business)
-3. Price (real)
-4. FirstName (first name of the card holder)
-5. LastName (last name of the card holder)
+  1. Timestamp
+  2. Location (name of the business)
+  3. Price (real)
+  4. FirstName (first name of the card holder)
+  5. LastName (last name of the card holder)
 4. A CSV file containing credit and debit card transaction data (`cc_data.csv`)
-1. Timestamp
-2. Location (name of the business)
-3. Price (real)
-4. FirstName (first name of the card holder)
-5. LastName (last name of the card holder)
-A tourist map of Abila with locations of interest identified, in JPEG format (`map-tourist.jpg`)
+  1. Timestamp
+  2. Location (name of the business)
+  3. Price (real)
+  4. FirstName (first name of the card holder)
+  5. LastName (last name of the card holder)
+5. A tourist map of Abila with locations of interest identified, in JPEG format (`map-tourist.jpg`)
 
 ### Goals
 
 1.  Describe common daily routines for GAStech employees. What does a day in the life of a typical GAStech employee look like? 
 
 2. Identify up to twelve unusual events or patterns that you see in the data. If you identify more than twelve patterns during your analysis, focus your answer on the patterns you consider to be most important for further investigation to help find the missing staff members. For each pattern or event you identify, describe
-1. What is the pattern or event you observe?
-2. Who is involved?
-3. What locations are involved?
-4. When does the pattern or event take place?
-5. Why is this pattern or event significant?
-6. What is your level of confidence about this pattern or event? Why?
+  1. What is the pattern or event you observe?
+  2. Who is involved?
+  3. What locations are involved?
+  4. When does the pattern or event take place?
+  5. Why is this pattern or event significant?
+  6. What is your level of confidence about this pattern or event? Why?
 
 3. Like most datasets, the data you were provided is imperfect, with possible issues such as missing data, conflicting data, data of varying resolutions, outliers, or other kinds of confusing data. Considering data is primarily spatiotemporal, describe how you identified and addressed the uncertainties and conflicts inherent in this data to reach your conclusions in questions 1 and 2.
 
