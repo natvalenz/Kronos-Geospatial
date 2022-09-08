@@ -13,31 +13,31 @@ As a data scientist expert assisting law enforcement, your mission is to make se
 ### Data - *[Download](https://github.com/emmanueliarussi/DataScienceCapstone/tree/master/7_FinalProjects/TheKronosIncidentGeospatial/data/task2.zip)*
 As an analyst, you have the following data at your disposal:
 
-1. A list of vehicle assignments by employee, in CSV format (`car-assignments.csv`)
+#### 1. A list of vehicle assignments by employee, in CSV format (`car-assignments.csv`)
   - Employee Last Name
   - Employee First Name
   - Car ID (integer)
   - Current Employment Type (Department; categorical)
   - Current Employment Title (job title; categorical)
-2. ESRI shapefiles of Abila and Kronos (in the Geospatial folder)
+#### 2. ESRI shapefiles of Abila and Kronos (in the Geospatial folder)
   - A CSV file of vehicle tracking data (`gps.csv`)
   - Timestamp
   - Car ID (integer)
   - Latitude
   - Longitude
-3. A CSV file containing loyalty card transaction data (`loyalty_data.csv`)
+#### 3. A CSV file containing loyalty card transaction data (`loyalty_data.csv`)
   1. Timestamp
   2. Location (name of the business)
   3. Price (real)
   4. FirstName (first name of the card holder)
   5. LastName (last name of the card holder)
-4. A CSV file containing credit and debit card transaction data (`cc_data.csv`)
+#### 4. A CSV file containing credit and debit card transaction data (`cc_data.csv`)
   1. Timestamp
   2. Location (name of the business)
   3. Price (real)
   4. FirstName (first name of the card holder)
   5. LastName (last name of the card holder)
-5. A tourist map of Abila with locations of interest identified, in JPEG format (`map-tourist.jpg`)
+#### 5. A tourist map of Abila with locations of interest identified, in JPEG format (`map-tourist.jpg`)
 
 ### Goals
 
