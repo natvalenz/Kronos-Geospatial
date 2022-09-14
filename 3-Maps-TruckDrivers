@@ -1,0 +1,402 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# # Null ID's Solution
+
+# In[1]:
+
+
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import datetime as dt
+import shapefile as shp
+import seaborn as sns
+import plotly.express as px
+
+
+# # Where and When?
+
+# In[2]:
+
+
+tdSummary= pd.read_csv("tdSummary.csv")
+pd.set_option('display.max_colwidth', 300)
+tdSummary
+
+
+# In[3]:
+
+
+#read in gps dataset
+gps = pd.read_csv("gps_fixed.csv")
+gps["Timestamp"] = gps["Timestamp"].apply(lambda x: dt.datetime.strptime(x,"%Y-%m-%d %H:%M:%S"))
+#read in car assignments
+car_assignments= pd.read_csv("car_assignments.csv")
+
+
+# In[4]:
+
+
+truckIds=gps['id'][gps['id']>100].unique()
+truckIds=np.sort(truckIds)
+truckIds
+
+
+# In[5]:
+
+
+def plotIdDate(idNum, startDate, endDate):
+    colors=['red', 'blue', 'green']
+    for i in idNum:
+        print("Where was car ID #", i)
+        figsize = (23,16)
+        plt.figure(figsize = figsize)
+        img = plt.imread("map-tourist.jpg")
+
+        plt.imshow(img, extent=[24.825, 24.9095, 36.045, 36.0955], aspect='auto')
+        #id #1 lucas gets his card stolen after 16th
+        id1=gps[(gps['id']==i)&(gps['Timestamp']>startDate) & (gps['Timestamp']<endDate)]
+        # Add the carID locations
+        plt.scatter(x=id1.long, y=id1.lat, c='red');
+        plt.show()
+    
+plotIdDate(truckIds,'2014-01-06 00:00:00', '2014-01-06 23:59:59')
+#2014-01-06
+
+#Albina Hafon	['Abila Airport', 'Ouzeri Elian', 'Kronos Pipe and Irrigation', 'Carlyle Chemical Inc.', 'Maximum Iron and Steel']	
+#101
+
+#Cecilia Morluniau	['Stewart and Sons Fabrication', 'Nationwide Refinery']
+#107
+
+#Henk Mies	['Abila Airport']
+#104
+
+
+# In[6]:
+
+
+plotIdDate(truckIds,'2014-01-07 00:00:00', '2014-01-07 23:59:59')
+#Benito Hawelon	['Nationwide Refinery', 'Stewart and Sons Fabrication', 'Abila Airport']
+# 1732 2014-01-07                 Abila Airport  3840.37 2014-01-07 09:17:00   
+# 1733 2014-01-07  Stewart and Sons Fabrication  1200.90 2014-01-07 10:05:00   
+# 1734 2014-01-07           Nationwide Refinery  1071.04 2014-01-07 12:02:00   
+#101
+
+#Cecilia Morluniau	['Stewart and Sons Fabrication', 'Nationwide Refinery']
+# 1114 2014-01-07           Nationwide Refinery  1347.36 2014-01-07 10:11:00   
+# 1115 2014-01-07  Stewart and Sons Fabrication  1843.33 2014-01-07 11:31:00   
+# 1130 2014-01-07  Stewart and Sons Fabrication  1783.33                 NaT   
+#107?
+
+#Dylan Scozzese	['Abila Airport', 'Abila Scrapyard', 'Nationwide Refinery', 'Stewart and Sons Fabrication']
+#106
+
+#Henk Mies	['Abila Airport']
+#104
+
+#Irene Nant	['Kronos Pipe and Irrigation', 'Carlyle Chemical Inc.', 'Maximum Iron and Steel']
+# Kronos Pipe and Irrigation  2014-01-07 14:19:00  1.0   
+# Maximum Iron and Steel  2014-01-07 15:20:00
+#107
+
+#Valeria Morlun	['Nationwide Refinery', 'Katerina\x92s Café', 'Carlyle Chemical Inc.']	
+#105
+
+
+# In[7]:
+
+
+plotIdDate(truckIds,'2014-01-08 00:00:00', '2014-01-08 23:59:59')
+#Adan Morlun
+#1802 2014-01-08           Nationwide Refinery  4513.16 2014-01-08 09:54:00   
+# 1803 2014-01-08  Stewart and Sons Fabrication  1738.26 2014-01-08 11:28:00  
+#106
+
+# Cecilia Morluniau
+# 1116 2014-01-08           Nationwide Refinery  3674.32 2014-01-08 10:14:00   
+# 1117 2014-01-08  Stewart and Sons Fabrication  1673.77 2014-01-08 11:58:00  
+#107?
+
+# Henk Mies
+# 1640 2014-01-08  Abila Airport  2723.18 2014-01-08 12:45:00  1.0      1.0   
+# 1641 2014-01-08  Abila Airport  2769.12 2014-01-08 15:29:00  1.0      1.0  
+#104
+
+# Irene Nant
+# 1794 2014-01-08  Kronos Pipe and Irrigation  3615.61 2014-01-08 14:09:00  1.0   
+# 1795 2014-01-08      Maximum Iron and Steel  3136.01 2014-01-08 15:18:00  1.0   
+# 107
+
+# Valeria Morlun
+# 1751 2014-01-08  Carlyle Chemical Inc.  3048.31 2014-01-08 09:43:00  1.0   
+# 1752 2014-01-08        Katerinas Café    29.26 2014-01-08 13:19:00  1.0   
+# 1753 2014-01-08  Carlyle Chemical Inc.  4901.88 2014-01-08 14:26:00  1.0   
+# 1775 2014-01-08    Nationwide Refinery  4367.43                 NaT  0.0   
+#105
+
+
+# In[8]:
+
+
+plotIdDate(truckIds,'2014-01-09 00:00:00', '2014-01-09 23:59:59')
+
+# Benito Hawelon:101
+# 1735 2014-01-09                 Abila Airport  2358.22 2014-01-09 09:26:00   
+# 1736 2014-01-09  Stewart and Sons Fabrication  1015.65 2014-01-09 10:38:00   
+# 1737 2014-01-09           Nationwide Refinery  1440.39 2014-01-09 12:49:00   
+# 1743 2014-01-09           Nationwide Refinery  1420.39                 NaT   
+
+# Cecilia Morluniau:107?
+# 1118 2014-01-09           Nationwide Refinery   674.28 2014-01-09 10:16:00   
+# 1119 2014-01-09  Stewart and Sons Fabrication  3544.00 2014-01-09 11:37:00   
+
+# Dylan Scozzese:106
+# 1780 2014-01-09                 Abila Airport  4792.50 2014-01-09 13:18:00   
+# 1781 2014-01-09               Abila Scrapyard  1158.36 2014-01-09 14:12:00   
+# 1782 2014-01-09  Stewart and Sons Fabrication   918.60 2014-01-09 15:00:00   
+# 1783 2014-01-09           Nationwide Refinery  1322.50 2014-01-09 16:27:00   
+
+# Henk Mies:104
+# 1642 2014-01-09  Abila Airport   202.93 2014-01-09 12:13:00  1.0      0.0   
+# 1643 2014-01-09  Abila Airport  4538.52 2014-01-09 15:50:00  1.0      1.0   
+# 1651 2014-01-09  Abila Airport   182.93                 NaT  0.0      1.0   
+
+# Irene Nant:107?
+# 1796 2014-01-09       Carlyle Chemical Inc.   732.82 2014-01-09 11:21:00  1.0   
+# 1797 2014-01-09  Kronos Pipe and Irrigation   423.14 2014-01-09 14:28:00  1.0   
+# 1798 2014-01-09      Maximum Iron and Steel  1527.14 2014-01-09 15:16:00  1.0   
+
+# Valeria Morlun:105
+# 1754 2014-01-09  Carlyle Chemical Inc.   529.47 2014-01-09 09:54:00  1.0   
+# 1755 2014-01-09    Nationwide Refinery   289.30 2014-01-09 11:34:00  1.0   
+# 1756 2014-01-09        Katerinas Café    16.98 2014-01-09 13:23:00  1.0   
+# 1757 2014-01-09  Carlyle Chemical Inc.   382.43 2014-01-09 14:26:00  1.0   
+# 1758 2014-01-09  Carlyle Chemical Inc.  2176.20 2014-01-09 16:22:00  1.0   
+
+
+
+
+
+# In[9]:
+
+
+plotIdDate(truckIds,'2014-01-10 00:00:00', '2014-01-10 23:59:59')
+
+# Cecilia Morluniau:107?
+# 1121 2014-01-10  Stewart and Sons Fabrication  4074.10 2014-01-10 11:49:00   
+# 1120 2014-01-10           Nationwide Refinery  1552.82 2014-01-10 10:00:00   
+
+
+# Claudio Hawelon:101
+# 1807 2014-01-10                 Abila Airport  4039.36 2014-01-10 07:59:00   
+# 1808 2014-01-10         Carlyle Chemical Inc.   227.81 2014-01-10 09:09:00   
+# 1809 2014-01-10           Nationwide Refinery  2302.73 2014-01-10 10:40:00   
+# 1810 2014-01-10  Stewart and Sons Fabrication  4195.49 2014-01-10 12:10:00   
+# 1811 2014-01-10           Nationwide Refinery  2262.73                 NaT   
+
+# Irene Nant:107?
+# 1801 2014-01-10       Carlyle Chemical Inc.  3489.36                 NaT  0.0
+
+
+
+# In[10]:
+
+
+plotIdDate(truckIds,'2014-01-13 00:00:00', '2014-01-13 23:59:59')
+
+# Albina Hafon:101
+# 1105 2014-01-13               Abila Airport  3617.47 2014-01-13 08:15:00  1.0   
+# 1106 2014-01-13  Kronos Pipe and Irrigation  2892.74 2014-01-13 08:58:00  1.0   
+# 1107 2014-01-13      Maximum Iron and Steel   689.85 2014-01-13 10:20:00  1.0   
+# 1108 2014-01-13       Carlyle Chemical Inc.  1718.96 2014-01-13 12:00:00  1.0   
+# 1109 2014-01-13                Ouzeri Elian    19.82 2014-01-13 12:55:00  1.0   
+# 1111 2014-01-13  Kronos Pipe and Irrigation  2852.74                 NaT  0.0   
+
+# Cecilia Morluniau:107
+# 1122 2014-01-13           Nationwide Refinery   204.58 2014-01-13 10:12:00   
+# 1131 2014-01-13  Stewart and Sons Fabrication  4071.95                 NaT 
+
+# Henk Mies:104
+# 1644 2014-01-13  Abila Airport  4417.03 2014-01-13 12:11:00  1.0      1.0   
+# 1645 2014-01-13  Abila Airport  2228.08 2014-01-13 16:56:00  1.0      1.0   
+
+
+# In[11]:
+
+
+plotIdDate(truckIds,'2014-01-14 00:00:00', '2014-01-14 23:59:59')
+
+# Benito Hawelon:101
+# 1738 2014-01-14  Stewart and Sons Fabrication   600.19 2014-01-14 11:01:00   									
+# 1739 2014-01-14           Nationwide Refinery  1341.01 2014-01-14 13:00:00   									
+# 1744 2014-01-14                 Abila Airport  2369.56                 NaT   									
+# 1745 2014-01-14           Nationwide Refinery  1301.01                 NaT   									
+# 1746 2014-01-14  Stewart and Sons Fabrication   540.19                 NaT   									
+
+# Cecilia Morluniau:107
+# 1123 2014-01-14           Nationwide Refinery   965.72 2014-01-14 10:03:00   									
+# 1124 2014-01-14  Stewart and Sons Fabrication   278.52 2014-01-14 11:55:00   									
+
+# Dylan Scozzese:106
+# 1784 2014-01-14                 Abila Airport  3379.21 2014-01-14 13:06:00   									
+# 1785 2014-01-14               Abila Scrapyard  4277.40 2014-01-14 14:13:00   									
+# 1786 2014-01-14           Nationwide Refinery  4429.76 2014-01-14 16:28:00   									
+
+# Henk Mies:104       
+# 1646 2014-01-14  Abila Airport   228.41 2014-01-14 12:30:00  1.0      1.0   							
+# 1647 2014-01-14  Abila Airport  4918.39 2014-01-14 15:32:00  1.0      0.0   							
+# 1652 2014-01-14  Abila Airport  4898.39                 NaT  0.0      1.0   							
+
+# Valeria Morlun:105
+# 1763 2014-01-14  Carlyle Chemical Inc.  3470.99 2014-01-14 16:16:00  1.0   								
+# 1762 2014-01-14  Carlyle Chemical Inc.   854.88 2014-01-14 14:21:00  1.0   								
+# 1760 2014-01-14    Nationwide Refinery   570.95 2014-01-14 11:45:00  1.0   								
+# 1759 2014-01-14  Carlyle Chemical Inc.  3630.57 2014-01-14 09:34:00  1.0   								
+# 1761 2014-01-14        Katerinas Café    34.45 2014-01-14 13:21:00  1.0   								
+# 1776 2014-01-14  Carlyle Chemical Inc.   794.88                 NaT  0.0   								
+
+
+# In[12]:
+
+
+plotIdDate(truckIds,'2014-01-15 00:00:00', '2014-01-15 23:59:59')
+
+# Adan Morlun:106?
+# 1804 2014-01-15           Nationwide Refinery  1903.77 2014-01-15 10:00:00   									
+# 1805 2014-01-15  Stewart and Sons Fabrication  4545.38 2014-01-15 11:18:00   									
+# 1806 2014-01-15  Stewart and Sons Fabrication  4485.38                 NaT   									
+
+# Cecilia Morluniau:107 or 106?
+# 1125 2014-01-15           Nationwide Refinery  1391.24 2014-01-15 10:14:00   									
+# 1126 2014-01-15  Stewart and Sons Fabrication  4740.68 2014-01-15 11:44:00   									
+
+# Henk Mies: 104        
+# 1648 2014-01-15  Abila Airport  3152.41 2014-01-15 12:25:00  1.0      1.0   								
+# 1649 2014-01-15  Abila Airport   875.87 2014-01-15 15:40:00  1.0      1.0   								
+
+# Irene Nant: 107?
+# 1799 2014-01-15  Kronos Pipe and Irrigation  2564.00 2014-01-15 14:12:00  1.0   									
+# 1800 2014-01-15      Maximum Iron and Steel  4788.22 2014-01-15 15:11:00  1.0   									
+
+# Valeria Morlun: 105      
+# 1764 2014-01-15  Carlyle Chemical Inc.  3608.08 2014-01-15 09:34:00  1.0   									
+# 1765 2014-01-15    Nationwide Refinery  3004.98 2014-01-15 11:55:00  1.0   									
+# 1766 2014-01-15        Katerinas Café    24.15 2014-01-15 13:13:00  1.0   									
+# 1767 2014-01-15  Carlyle Chemical Inc.  1112.04 2014-01-15 14:25:00  1.0   									
+# 1768 2014-01-15  Carlyle Chemical Inc.  1392.73 2014-01-15 17:01:00  1.0   									
+       
+        
+
+
+# In[13]:
+
+
+plotIdDate(truckIds,'2014-01-16 00:00:00', '2014-01-16 23:59:59')
+
+
+# Benito Hawelon: 101
+# 1740 2014-01-16                 Abila Airport  1676.53 2014-01-16 09:18:00   
+# 1741 2014-01-16  Stewart and Sons Fabrication   940.30 2014-01-16 11:06:00   
+# 1742 2014-01-16           Nationwide Refinery  2047.28 2014-01-16 12:32:00   
+# 1747 2014-01-16  Stewart and Sons Fabrication   860.30                 NaT   
+
+# Cecilia Morluniau:107
+# 1127 2014-01-16           Nationwide Refinery  1494.44 2014-01-16 10:16:00   
+# 1128 2014-01-16  Stewart and Sons Fabrication  4543.31 2014-01-16 11:45:00   
+
+# Dylan Scozzese:106
+# 1787 2014-01-16                 Abila Airport  3138.98 2014-01-16 13:22:00   
+# 1788 2014-01-16               Abila Scrapyard  1897.05 2014-01-16 16:56:00   
+
+# Henk Mies:104 
+# 1650 2014-01-16  Abila Airport  3917.30 2014-01-16 12:40:00  1.0      1.0   
+# 1653 2014-01-16  Abila Airport  3032.97                 NaT  0.0      1.0   
+
+# Valeria Morlun:105  
+# 1769 2014-01-16  Carlyle Chemical Inc.   419.93 2014-01-16 09:52:00  1.0   
+# 1770 2014-01-16    Nationwide Refinery  4742.67 2014-01-16 11:25:00  1.0   
+# 1771 2014-01-16        Katerinas Café    34.90 2014-01-16 13:23:00  1.0   
+# 1772 2014-01-16  Carlyle Chemical Inc.  1814.24 2014-01-16 17:17:00  1.0   
+
+
+
+
+
+
+
+# In[14]:
+
+
+plotIdDate(truckIds,'2014-01-17 00:00:00', '2014-01-17 23:59:59')
+
+# Cecilia Morluniau:107
+# 1129 2014-01-17  Stewart and Sons Fabrication  1753.17 2014-01-17 11:32:00
+
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[15]:
+
+
+plotIdDate(truckIds,'2014-01-07 12:00:00', '2014-01-07 23:59:59')
+#Benito Hawelon	['Nationwide Refinery', 'Stewart and Sons Fabrication', 'Abila Airport']
+# 1732 2014-01-07                 Abila Airport  3840.37 2014-01-07 09:17:00   
+# 1733 2014-01-07  Stewart and Sons Fabrication  1200.90 2014-01-07 10:05:00   
+# 1734 2014-01-07           Nationwide Refinery  1071.04 2014-01-07 12:02:00   
+#101
+
+#Cecilia Morluniau	['Stewart and Sons Fabrication', 'Nationwide Refinery']
+# 1114 2014-01-07           Nationwide Refinery  1347.36 2014-01-07 10:11:00   
+# 1115 2014-01-07  Stewart and Sons Fabrication  1843.33 2014-01-07 11:31:00   
+# 1130 2014-01-07  Stewart and Sons Fabrication  1783.33                 NaT   
+#101 or 107?
+
+
+#Irene Nant	['Kronos Pipe and Irrigation', 'Carlyle Chemical Inc.', 'Maximum Iron and Steel']
+# Kronos Pipe and Irrigation  2014-01-07 14:19:00  1.0   
+# Maximum Iron and Steel  2014-01-07 15:20:00
+#107
+
+
+# In[ ]:
+
+
+
+
+
+# In[16]:
+
+
+ciSummary= pd.read_csv("truckDriversNull.csv")
+pd.set_option('display.max_colwidth', 300)
+ciSummary
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
