@@ -1,0 +1,236 @@
+# Holoview Interactive and Dropdown with ipywidgets
+### Sources
+http://holoviews.org/user_guide/Dashboards.html 
+
+https://stackoverflow.com/questions/56484779/holoviews-scatter-plot-color-by-categorical-data
+
+https://coderzcolumn.com/tutorials/data-science/getting-started-with-holoviews-basic-plotting
+
+https://hvplot.holoviz.org/user_guide/Customization.html
+
+https://github.com/holoviz/hvplot/issues/180
+
+https://stackoverflow.com/questions/59609911/holoviews-hovertool-show-extra-row
+
+
+Split data
+6-9am
+11-1pm
+4-7 pm
+8-3am
+#import and holovies
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import datetime as dt
+import seaborn as sns
+import plotly.express as px
+import holoviews as hv
+# from holoviews.operation.datashader import rasterize
+from holoviews import opts, dim
+from datetime import datetime, date
+import ipywidgets
+#import hvplot.pandas
+import holoviews.plotting.mpl
+from sklearn.preprocessing import (OrdinalEncoder, MinMaxScaler, StandardScaler, LabelEncoder, LabelBinarizer)
+from sklearn.neighbors import LocalOutlierFactor
+
+%env HV_DOC_HTML=true
+#read in gps data
+gps = pd.read_csv("gps_fixed.csv")
+#fic type for date
+gps["Timestamp"] = gps["Timestamp"].apply(lambda x: dt.datetime.strptime(x,"%Y-%m-%d %H:%M:%S"))
+gps.head()
+#read in the tourist map
+tourist = hv.RGB.load_image('map-tourist.jpg', bounds=(24.825,36.045, 24.9095, 36.0955))
+## LOF Visual
+#read in the data
+gpsStops=pd.read_csv('gps_stopsOnly.csv') 
+
+
+categoricalCol=['time', 'date']
+le = LabelEncoder()
+X=gpsStops.drop(columns=['Timestamp', 'CurrentEmploymentType', 'CurrentEmploymentTitle', 'FullName'])
+X[categoricalCol]=X[categoricalCol].apply(le.fit_transform)
+
+# fit the model for outlier detection (default)
+clf = LocalOutlierFactor(n_neighbors=35, contamination=0.1)
+# use fit_predict to compute the predicted labels of the training samples
+# (when LOF is used for outlier detection, the estimator has no predict,
+# decision_function and score_samples methods).
+y_pred = clf.fit_predict(X)
+X_scores = clf.negative_outlier_factor_
+gpsStops['outScore']=X_scores
+radius = (X_scores.max() - X_scores) / (X_scores.max() - X_scores.min())
+gpsStops['radius']=radius
+gpsStops
+# show me thos outliers!
+hv.extension('bokeh')
+tourist = hv.RGB.load_image('map-tourist.jpg', bounds=(24.825,36.045, 24.9095, 36.0955))
+scatter=hv.Scatter(data=gpsStops, kdims=['long'], vdims=['lat', 'id','Timestamp']).opts(color='b')
+outliers=hv.Scatter(data=gpsStops[gpsStops['outScore']<-1.5], kdims=['long'], vdims=['lat', 'id','Timestamp', 'outScore','radius']).opts(size=dim('radius')*100,line_color='red',color='red',alpha=0.2,tools=['hover'])
+layout=tourist*outliers*scatter
+layout.opts(width=1096, height=614, legend_position='right', toolbar='above')
+## Holoviews
+# hv.extension('bokeh')
+## this has everything... this is where we started
+# gpsDS=hv.Dataset(gps)
+# scatter=hv.Scatter(data=gpsDS, kdims=['long'], vdims=['lat', 'idStr','Timestamp']).opts(color='idStr', cmap='colorwheel', tools=['hover'])
+# layout=tourist*scatter
+# layout.opts(width=1096, height=614, legend_position='right', toolbar='above')
+# hv.save(layout, 'layout.html', backend='bokeh')
+### Dropdown with ID, Time, Date
+hv.extension('bokeh')
+# renderer = hv.renderer('bokeh')
+gps1_5=gps
+# example using ipywidgets
+id_widget = ipywidgets.Dropdown(options=gps1_5.id.unique().tolist(), 
+                                     description='ID:')
+
+time_widget = ipywidgets.Dropdown(options=gps1_5.time.unique(), 
+                                     description='Time:')
+date_widget = ipywidgets.Dropdown(options=gps1_5.date.unique(), 
+                                     description='Date:')
+
+
+def create_chart(id,time,date):
+    chart = hv.Scatter(gps1_5[(gps1_5.id == id) & (gps1_5.time==time) & (gps1_5.date==date)], kdims=['long'], vdims=['lat','Timestamp']).opts(tools=['hover'])
+    stops= hv.Scatter(gps1_5[(gps1_5.id == id) & (gps1_5.time==time) & (gps1_5.date==date) & (gps1_5.stop==1)], kdims=['long'], vdims=['lat', 'stop','Timestamp']).opts(marker='*', size=30, cmap='jet',tools=['hover'])
+    layout=tourist*chart*stops
+    display(layout.opts(width=1096, height=614, legend_position='right', toolbar='above'))
+#     renderer.save(layout, 'graph.html')
+
+ipywidgets.interact(create_chart, id=id_widget, time=time_widget, date = date_widget)
+hv.extension('bokeh')
+gps1_5=gps[(gps['id']>0) & (gps['id']<108)]
+
+# example using ipywidgets
+id_widget = ipywidgets.Dropdown(options=gps1_5.id.unique().tolist(),  
+                                     description='ID:')
+date_widget = ipywidgets.Dropdown(options=gps1_5.date.unique(), 
+                                     description='Date:')
+
+
+def create_chart(id,date):
+    chart = hv.Scatter(gps1_5[(gps1_5.id == id) & (gps1_5.date==date)], kdims=['long'], vdims=['lat', 'time','Timestamp']).opts(color='time', cmap='jet',tools=['hover'])
+    stops= hv.Scatter(gps1_5[(gps1_5.id == id) & (gps1_5.date==date) & (gps1_5.stop==1)], kdims=['long'], vdims=['lat', 'time', 'stop','Timestamp']).opts(marker='*', size=30, color='time', cmap='jet',tools=['hover'])
+    layout=tourist*chart*stops
+    display(layout.opts(width=1096, height=614, legend_position='right', toolbar='above'))
+
+ipywidgets.interact(create_chart, id=id_widget, date = date_widget)
+### Dropdown with ID and Date only
+hv.extension('bokeh')
+#gps1_5=gps[(gps['id']>0) & (gps['id']<25)]
+
+# example using ipywidgets
+id_widget = ipywidgets.Dropdown(options=gps1_5.id.unique().tolist(),  
+                                     description='ID:')
+date_widget = ipywidgets.Dropdown(options=gps1_5.date.unique(), 
+                                     description='Date:')
+
+
+def create_chart(id,date):
+    chart = hv.Scatter(gps1_5[(gps1_5.id == id) & (gps1_5.date==date)], kdims=['long'], vdims=['lat', 'time','Timestamp']).opts(color='time', cmap='jet',tools=['hover'])
+    stops= hv.Scatter(gps1_5[(gps1_5.id == id) & (gps1_5.date==date) & (gps1_5.stop==1)], kdims=['long'], vdims=['lat', 'time', 'stop','Timestamp']).opts(marker='*', size=30, color='time', cmap='jet',tools=['hover'])
+    layout=tourist*chart*stops
+    display(layout.opts(width=1096, height=614, legend_position='right', toolbar='above'))
+
+ipywidgets.interact(create_chart, id=id_widget, date = date_widget)
+### Dropdown with Name, Date
+hv.extension('bokeh')
+#gps1_5=gps[(gps['id']>0) & (gps['id']<25)]
+
+# example using ipywidgets
+
+date_widget = ipywidgets.Dropdown(options=gps1_5.date.unique(), 
+                                     description='Date:')
+name_widget = ipywidgets.Dropdown(options=gps1_5.FullName.unique(), 
+                                     description='Name:')
+
+def create_chart(name, date):
+    chart = hv.Scatter(gps1_5[(gps1_5.FullName == name) & (gps1_5.date==date)], kdims=['long'], vdims=['lat', 'time','Timestamp']).opts(color='time', cmap='jet',tools=['hover'])
+    stops= hv.Scatter(gps1_5[(gps1_5.FullName == name) & (gps1_5.date==date) & (gps1_5.stop==1)], kdims=['long'], vdims=['lat', 'time', 'stop','Timestamp']).opts(marker='*', size=30, color='time', cmap='jet',tools=['hover'])
+    layout=tourist*chart*stops
+    display(layout.opts(width=1096, height=614, legend_position='right', toolbar='above'))
+
+ipywidgets.interact(create_chart, name=name_widget, date = date_widget)
+### Dropdown with Hour and Date only
+hv.extension('bokeh')
+gps1_5=gps[(gps['id']>0) & (gps['id']<25)]
+
+# example using ipywidgets
+
+
+date_widget = ipywidgets.Dropdown(options=gps1_5.date.unique(), 
+                                     description='Date:')
+time_widget = ipywidgets.Dropdown(options=gps1_5.hour.unique(), 
+                                     description='Time:')
+
+def create_chart(time, date):
+    chart = hv.Scatter(gps1_5[(gps1_5.hour == time) & (gps1_5.date==date)], kdims=['long'], vdims=['lat', 'time','Timestamp']).opts(color='time', cmap='jet',tools=['hover'])
+    stops= hv.Scatter(gps1_5[(gps1_5.hour == time) & (gps1_5.date==date) & (gps1_5.stop==1)], kdims=['long'], vdims=['lat', 'time', 'stop','Timestamp']).opts(marker='*', size=30, color='time', cmap='jet',tools=['hover'])
+    layout=tourist*chart*stops
+    display(layout.opts(width=1096, height=614, legend_position='right', toolbar='above'))
+
+ipywidgets.interact(create_chart, time=time_widget, date = date_widget)
+### Dropdown with Department, Date and Hour
+hv.extension('bokeh')
+gps1_5=gps#[(gps['id']>0) & (gps['id']<25)]
+
+# example using ipywidgets
+
+date_widget = ipywidgets.Dropdown(options=gps1_5.date.unique(), 
+                                     description='Date:')
+
+dep_widget = ipywidgets.Dropdown(options=gps1_5.CurrentEmploymentType.unique(), 
+                                     description='Department:')
+time_widget = ipywidgets.Dropdown(options=gps1_5.hour.unique(), 
+                                     description='Time:')
+
+def create_chart(date, time, department):
+    chart = hv.Scatter(gps1_5[(gps1_5.date == date) &(gps1_5.hour == time) & (gps1_5.CurrentEmploymentType==department)], kdims=['long'], vdims=['lat', 'time','Timestamp']).opts(color='time', cmap='jet',tools=['hover'])
+    stops= hv.Scatter(gps1_5[(gps1_5.date == date) &(gps1_5.hour == time) & (gps1_5.CurrentEmploymentType==department) & (gps1_5.stop==1)], kdims=['long'], vdims=['lat', 'time', 'stop','Timestamp']).opts(marker='*', size=30, color='time', cmap='jet',tools=['hover'])
+    layout=tourist*chart*stops
+    display(layout.opts(width=1096, height=614, legend_position='right', toolbar='above'))
+
+ipywidgets.interact(create_chart, date=date_widget,time=time_widget, department = dep_widget)
+#### used for powerpoint visuals
+### Dropdown with Department, Date and Hour
+# hv.extension('bokeh')
+# gps1_5=gps[(gps['Timestamp']>'2014-01-06 23:00:00') & (gps['Timestamp']<'2014-01-07 03:00:00')]
+
+# # example using ipywidgets
+
+# date_widget = ipywidgets.Dropdown(options=gps1_5.date.unique(), 
+#                                      description='Date:')
+
+# dep_widget = ipywidgets.Dropdown(options=gps1_5.CurrentEmploymentType.unique(), 
+#                                      description='Department:')
+
+
+# def create_chart(department):
+#     chart = hv.Scatter(gps1_5[ (gps1_5.CurrentEmploymentType==department)], kdims=['long'], vdims=['lat', 'FullName','time','Timestamp']).opts(color='time', cmap='jet',tools=['hover'])
+#     stops= hv.Scatter(gps1_5[(gps1_5.CurrentEmploymentType==department) & (gps1_5.stop==1)], kdims=['long'], vdims=['lat', 'FullName','time', 'stop','Timestamp']).opts(marker='*', size=30, color='time', cmap='jet',tools=['hover'])
+#     layout=tourist*chart*stops
+#     display(layout.opts(width=1096, height=614, legend_position='right', toolbar='above'))
+
+# ipywidgets.interact(create_chart, department = dep_widget)
+# hv.extension('bokeh')
+# gps1_5=gps[(gps['id']>24) & (gps['id']<108)]
+# #gps1_5 = hv.Dataset(gps1_5,kdims=['long'])
+
+# # example using ipywidgets
+# import ipywidgets
+# id_widget = ipywidgets.Dropdown(options=gps1_5.id.unique().tolist(),  
+#                                      description='ID:')
+# name_widget = ipywidgets.Dropdown(options=gps1_5.FullName.unique(), 
+#                                      description='Name:')
+
+
+# def create_chart(name,time,date):
+#     chart = hv.Scatter(gps1_5[(gps1_5.FullName == name) & (gps1_5.time==time) & (gps1_5.date==date)], kdims=['long'], vdims=['lat', 'idStr','Timestamp']).opts(tools=['hover'])
+#     layout=tourist*chart
+#     display(layout.opts(width=1096, height=614, legend_position='right', toolbar='above'))
+
+# ipywidgets.interact(create_chart, name=name_widget, time=time_widget, date = date_widget)
