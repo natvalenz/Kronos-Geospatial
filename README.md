@@ -26,6 +26,7 @@ The credit card and loyalty card data usually matched the GPS data. In general, 
 After filtering and processing the data, patterns started to emerge in the daily life of employees. Most of the employees lived in four to five different neighboring areas along Rist Way. All these locations are northeast, following the outline of the golf course. Employees start their day at home. It was common to see employees stop by the local coffee shop near them on their way to work, go out to eat at local restaurants during lunch, and run errands or go out to eat again at dinner. For example, Hideki Cocinaro lives by Sannon Park. A typical day for her was waking up and stopping by Hallowed Grounds on her way to work, stopping at Abila Zacharo (or another local restaurant) for lunch, and going out to Guy’s Gyros for dinner after work. On the weekends, employees went out later for lunch, shopping, and dinner, or enjoyed other activities such as going to the museum or playing golf. 
 
 ![alt text](https://github.com/natvalenz/Kronos-Geospatial/blob/main/Picture2.png)
+
 Figure 2: A typical GPS route of a GAStech employee with stop locations marked with asterisks and color coordinated by time of the day. 
 
 Several patterns emerged with the local businesses as well. Katerina’s Kafe, Hippokampos, and Guy’s Gyros were by far the most popular restaurants. Brew’ve Been Served was the most popular coffee shop, followed by Hallowed Grounds.
