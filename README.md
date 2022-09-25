@@ -30,6 +30,7 @@ Figure 2: A typical GPS route of a GAStech employee with stop locations marked w
 
 Several patterns emerged with the local businesses as well. Katerina’s Kafe, Hippokampos, and Guy’s Gyros were by far the most popular restaurants. Brew’ve Been Served was the most popular coffee shop, followed by Hallowed Grounds.
 ![alt text](https://github.com/natvalenz/Kronos-Geospatial/blob/main/Picture3.png)
+
 Figure 3: Local business count of credit and loyalty card transactions. 
 
 Employees from within the same department had similar routines as one another but had slightly different routines than those from other departments. For example, the truck drivers often frequented different shops and industries (such as going to the airport) than the other employees. All the executives seemed to enjoy playing golf more often than the other departments.
@@ -47,6 +48,7 @@ Figure 4: Lucas’ GPS locations during the day of the Frydo’s Autosupply $10,
 The GPS data and the card data did not match. Researchers also noted that Lucas only used his loyalty card from January 13th to January 15th, which is after the transaction at Frydo’s Autosupply. He did not use his credit card again until the 16th. There could be varied reasons for this. Lucas’ car GPS location is wrong, or he walked to the location. His card could have gotten stolen, or he gave the card to another coworker. Given the mismatch of GPS location and extremely high credit card charge, it is important to follow up and determine who else was in this location during this time of day. Looking through other employees’ locations during the same time, it was noted that Minke Mies was the only person at Frydo’s Autosupply at 7:20pm on January 13th, and thus, this makes him a suspect for the card transaction. The level of confidence for this pattern was average. There could be several explanations for the mismatching transaction and GPS data, so this event would be a suitable place for law enforcement agencies to start.
 
 ![alt text](https://github.com/natvalenz/Kronos-Geospatial/blob/main/Picture5.png)
+
 Figure 5: Minke’s GPS locations during the day of the Frydo’s Autosupply $10,000 transaction. He was the only person at Frydo’s Autosupply during the time of the credit card purchase.
 
 Pattern 2
