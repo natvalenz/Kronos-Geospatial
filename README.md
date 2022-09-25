@@ -1,46 +1,18 @@
 # The Kronos Incident: Geospatial-Temporal Patterns of Life Analysis
 Describe common daily routines for GASTech employees and identify up to twelve unusual events or patterns in the data.
 
-## Background
-In January, 2014, the leaders of GAStech are celebrating their new-found fortune as a result of the initial public offering of their very successful company. In the midst of this celebration, several employees of GAStech go missing. An organization known as the Protectors of Kronos (POK) is suspected in the disappearance, but things may not be what they seem.
+## INTRODUCTION AND PURPOSE OF THE ANALYSIS
+GAStech has been breaking news headlines for being a prestigious company in the energy sector and has recently gained recognition after their initial public offering and successful business model. Now they are breaking news headlines for a different reason. Employees are devastated to find out that some of their coworkers have been kidnapped in an unfortunate turn of events. Two data scientists have been hired to help law enforcement discover unusual patterns of behavior to assist in their investigation of trying to identify what happened during what people are calling ‘The Kronos Incident.’ 
 
-Many of the Abila, Kronos-based employees of GAStech have company cars which are approved for both personal and business use. Those who do not have company cars have the ability to check out company trucks for business use, but these trucks cannot be used for personal business. Employees with company cars are happy to have these vehicles, because the company cars are generally much higher quality than the cars they would be able to afford otherwise. However, GAStech does not trust their employees. Without the employees’ knowledge, GAStech has installed geospatial tracking software in the company vehicles. The vehicles are tracked periodically as long as they are moving.
+The data scientist researchers were provided with some background information on the employees. GAStech employees had the opportunity to have company cars that they could use for both business and personal occasions. The company cars provided employees an opportunity to have a car that they otherwise may not have been able to afford. The employees who were not assigned a car still had the opportunity to check out company trucks for business use, but the trucks could not be used for personal occasions. GAStech did not trust employees with the vehicles, so the company cars and trucks had geospatial tracking devices that periodically collected data when the vehicles were moving. Employees were unaware of these devices. Employees also had credit cards and loyalty cards which could be used for both personal and business transactions. Loyalty cards were cards where employees could gain rewards and discounts at their favorite local businesses.
 
-This vehicle tracking data has been made available to law enforcement to support their investigation. Unfortunately, data is not available for the day the GAStech employees went missing. Data is only available for the two weeks prior to the disappearance. In addition to the vehicle data, law enforcement has been given access to the personal and business credit and debit card transactions for the local GAStech employees for the two weeks preceding the kidnapping. Many of the GAStech employees also use loyalty cards to gain discounts or extra benefits at the businesses they patronize, and law enforcement has been given access to two weeks of this loyalty card data as well.
 
-As a data scientist expert assisting law enforcement, your mission is to make sense of this data to identify suspicious patterns of behavior and to prioritize which of these may be related to the missing staff members. You must cope with uncertainties that result from missing, conflicting, and imperfect data to make recommendations for further investigation.
+## DATA DESCRIPTION - *[Download](https://github.com/emmanueliarussi/DataScienceCapstone/tree/master/7_FinalProjects/TheKronosIncidentGeospatial/data/task2.zip)*
+To help the investigation, the researchers were given four main files of information. One file contained employee information including car assignment id, employee name and id, department, and title. Two files contained all the card data, one for the credit cards and another for the loyalty cards. Within the card data, the data fields included name, location, price, and the timestamp. The last file included geospatial data that had the car id, timestamp, latitude, and longitude coordinates. Geospatial ESRI shapefiles were provided with images of both Kronos and Abila, Kronos’ capital where the employees resided. Lastly, a tourist map with business locations and areas of interest was also supplied to the data scientists. 
 
-### Data - *[Download](https://github.com/emmanueliarussi/DataScienceCapstone/tree/master/7_FinalProjects/TheKronosIncidentGeospatial/data/task2.zip)*
-As an analyst, you have the following data at your disposal:
-
-#### 1. A list of vehicle assignments by employee, in CSV format (`car-assignments.csv`)
-  1. Employee Last Name
-  2. Employee First Name
-  3. Car ID (integer)
-  4. Current Employment Type (Department; categorical)
-  5. Current Employment Title (job title; categorical)
-#### 2. ESRI shapefiles of Abila and Kronos (in the Geospatial folder)
-  1. A CSV file of vehicle tracking data (`gps.csv`)
-  2. Timestamp
-  3. Car ID (integer)
-  4. Latitude
-  5. Longitude
-#### 3. A CSV file containing loyalty card transaction data (`loyalty_data.csv`)
-  1. Timestamp
-  2. Location (name of the business)
-  3. Price (real)
-  4. FirstName (first name of the card holder)
-  5. LastName (last name of the card holder)
-#### 4. A CSV file containing credit and debit card transaction data (`cc_data.csv`)
-  1. Timestamp
-  2. Location (name of the business)
-  3. Price (real)
-  4. FirstName (first name of the card holder)
-  5. LastName (last name of the card holder)
-#### 5. A tourist map of Abila with locations of interest identified, in JPEG format (`map-tourist.jpg`)
-
-### Goals
-
+## DATA PREPARATION 
+Data preparation came with a myriad of challenges. The first task was to align the GPS data with the shapefiles and the map with identified points of interest. The data was organized in an interactive map, where researchers could filter the name of the employee, what route they took, the time of day, and if the employee made any stops along their route. However, it was noted that GPS data points were sometimes missing or did not provide the full picture of the locations. For example, GPS data for Axel Calzas often showed spotty locations like in the image below. 
+![alt text](https://github.com/natvalenz/Kronos-Geospatial/blob/main/Picture1.png)
 #### 1.  Describe common daily routines for GAStech employees. What does a day in the life of a typical GAStech employee look like? 
 
 #### 2. Identify up to twelve unusual events or patterns that you see in the data. If you identify more than twelve patterns during your analysis, focus your answer on the patterns you consider to be most important for further investigation to help find the missing staff members. For each pattern or event you identify, describe
