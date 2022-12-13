@@ -1,21 +1,41 @@
 # The Kronos Incident: Geospatial-Temporal Patterns of Life Analysis
+
+## Table of contents
+- [Challenge Instructions](#challenge-instructions)
+- [Project Objective](#project-objective)
+- [Data Description](#data-description)
+- [Data Preparation](#data-preparation)
+- [Project Analysis](#project-analysis)
+- [Project Discussion](#project-discussion)
+- [Contributors](#contributors)
+
+## Challenge Instructions
+[(Back to top)](#table-of-contents)
+<br>
 Describe common daily routines for GASTech employees and identify up to twelve unusual events or patterns in the data.
 In order to use this data, you will require skills in geospatial-temporal analysis, along with the ability to combine various types of data in sensible ways. The GPS data was extracted from the cars for the two weeks period prior to the kidnapping, but not including the kidnapping day itself. GASTech also issued company debit/credit cards that could be used for personal spending, and many employees had loyalty cards for restaurants and shops around Abila city. Analyzing the combined data sources could reveal clues about the kidnapping and the GASTech employees who may have participated in this activity. You need to be aware that some GPS readings may be skewed for some vehicles. In addition, particular locations may exhibit deviations in the times at which they post their card transactions. Similarly, in some cases, the transactions were logged in batches once per day; in some locations transactions may be delayed, creating the appearance of individuals shopping in the middle of the night.
 
 Focus your work on identifying regular patterns. For example, credit card data may contain typical charges like GASTech employees preferring to use their debit and loyalty cards at coffee houses. Deviations from these patterns might indicate suspicious activities or just non-conforming patterns by individuals. Hypotheses about suspicious activities need to be supported by evidence and/or reasoning from data. Look for anomalies such as a credit card charge occurring for an employee while the GPS track indicates a different location for their assigned vehicle.
 
 Map data, including shape files of Abila city streets and a visitor’s map of the city sites and shops, are provided to you as an additional support to understand patterns of life. For example, even though employees’ home addresses were not provided, patterns of life analysis may reveal where they spent their evening hours, typically indicating their home address. Regular gatherings at what appeared to be residences, but not corresponding to any employee’s home address could suggest different hypotheses.
+<br>
 
-## INTRODUCTION AND PURPOSE OF THE ANALYSIS
+## Project Objective
+[(Back to top)](#table-of-contents)
+<br>
 GAStech has been breaking news headlines for being a prestigious company in the energy sector and has recently gained recognition after their initial public offering and successful business model. Now they are breaking news headlines for a different reason. Employees are devastated to find out that some of their coworkers have been kidnapped in an unfortunate turn of events. Two data scientists have been hired to help law enforcement discover unusual patterns of behavior to assist in their investigation of trying to identify what happened during what people are calling ‘The Kronos Incident.’ 
 
 The data scientist researchers were provided with some background information on the employees. GAStech employees had the opportunity to have company cars that they could use for both business and personal occasions. The company cars provided employees an opportunity to have a car that they otherwise may not have been able to afford. The employees who were not assigned a car still had the opportunity to check out company trucks for business use, but the trucks could not be used for personal occasions. GAStech did not trust employees with the vehicles, so the company cars and trucks had geospatial tracking devices that periodically collected data when the vehicles were moving. Employees were unaware of these devices. Employees also had credit cards and loyalty cards which could be used for both personal and business transactions. Loyalty cards were cards where employees could gain rewards and discounts at their favorite local businesses.
 
 
-## DATA DESCRIPTION - *[Download](https://github.com/emmanueliarussi/DataScienceCapstone/tree/master/7_FinalProjects/TheKronosIncidentGeospatial/data/task2.zip)*
+## Data Description - *[Download](https://github.com/emmanueliarussi/DataScienceCapstone/tree/master/7_FinalProjects/TheKronosIncidentGeospatial/data/task2.zip)*
+[(Back to top)](#table-of-contents)
+<br>
 To help the investigation, the researchers were given four main files of information. One file contained employee information including car assignment id, employee name and id, department, and title. Two files contained all the card data, one for the credit cards and another for the loyalty cards. Within the card data, the data fields included name, location, price, and the timestamp. The last file included geospatial data that had the car id, timestamp, latitude, and longitude coordinates. Geospatial ESRI shapefiles were provided with images of both Kronos and Abila, Kronos’ capital where the employees resided. Lastly, a tourist map with business locations and areas of interest was also supplied to the data scientists. 
 
 ## DATA PREPARATION 
+[(Back to top)](#table-of-contents)
+<br>
 Data preparation came with a myriad of challenges. The first task was to align the GPS data with the shapefiles and the map with identified points of interest. The data was organized in an interactive map, where researchers could filter the name of the employee, what route they took, the time of day, and if the employee made any stops along their route. However, it was noted that GPS data points were sometimes missing or did not provide the full picture of the locations. For example, GPS data for Axel Calzas often showed spotty locations like in the image below. 
 ![alt text](https://github.com/natvalenz/Kronos-Geospatial/blob/main/Picture1.png)
 Figure 1: GPS data partially missing during the morning of 1/10/2014. The time frames were close together, so it can be assumed that the car continued to work after stopping at the coffee shop. 
@@ -27,6 +47,8 @@ Credit card and loyalty transaction data sets were also merged by each person, d
 The credit card and loyalty card data usually matched the GPS data. In general, people would make a stop at a location and then make a purchase. However, when looking through the data, inconsistencies were identified. Some card transactions had missing timestamps. Sometimes, there were duplicate transactions. Furthermore, when the credit card and loyalty card data was compared to the GPS data, there were more problems. Some transactions had a timestamp at a time that was not necessarily the time the employee was at the business. Kronos Mart, for example, often had charges that did not show up until the following day. These conflicting data challenges were not completely overcome during the analysis and should be noted when law enforcement follows up on their investigation.
 
 ## ANALYSIS
+[(Back to top)](#table-of-contents)
+<br>
 #### 1.  Describe common daily routines for GAStech employees. What does a day in the life of a typical GAStech employee look like? 
 After filtering and processing the data, patterns started to emerge in the daily life of employees. Most of the employees lived in four to five different neighboring areas along Rist Way. All these locations are northeast, following the outline of the golf course. Employees start their day at home. It was common to see employees stop by the local coffee shop near them on their way to work, go out to eat at local restaurants during lunch, and run errands or go out to eat again at dinner. For example, Hideki Cocinaro lives by Sannon Park. A typical day for her was waking up and stopping by Hallowed Grounds on her way to work, stopping at Abila Zacharo (or another local restaurant) for lunch, and going out to Guy’s Gyros for dinner after work. On the weekends, employees went out later for lunch, shopping, and dinner, or enjoyed other activities such as going to the museum or playing golf. 
 
@@ -42,6 +64,8 @@ Figure 3: Local business count of credit and loyalty card transactions.
 Employees from within the same department had similar routines as one another but had slightly different routines than those from other departments. For example, the truck drivers often frequented different shops and industries (such as going to the airport) than the other employees. All the executives seemed to enjoy playing golf more often than the other departments.
 
 ## UNUSUAL PATTERN RESULTS
+[(Back to top)](#table-of-contents)
+<br>
 #### 2. Identify up to twelve unusual events or patterns that you see in the data. If you identify more than twelve patterns during your analysis, focus your answer on the patterns you consider to be most important for further investigation to help find the missing staff members. 
 Although most employees followed a ‘typical day’ routine, there were several anomalies detected in the data sets. 
 
@@ -99,11 +123,15 @@ Pattern 12
 Lucas Alcazar gets home late from work on several days including the 6th, 8th, 15th, and 17th. It seemed like Lucas might be staying at the office to work late during those days, or he could be planning the kidnappings. No other person was at the office during those times, so these events are significant. The level of confidence about this pattern was high because Lucas drives to and from work on several nights. 
 
 
-## DISCUSSION
+## Project Results
+[(Back to top)](#table-of-contents)
+<br>
 #### 3. Like most datasets, the data you were provided is imperfect, with possible issues such as missing data, conflicting data, data of varying resolutions, outliers, or other kinds of confusing data. Considering data is primarily spatiotemporal, describe how you identified and addressed the uncertainties and conflicts inherent in this data to reach your conclusions in questions 1 and 2.
 
 There were several unique patterns that have emerged from this data set, and all these patterns should be followed up and further investigated by law enforcement teams. Researchers had to navigate around missing and conflicting data, making it closely resemble other realistic situations. GPS latitude and longitude coordinates were mapped onto the tourist locations and cross checked with credit card and loyalty data to verify purchases and travel, identify typical patterns, and to detect outliers. Suspicious behavior emerged in the data sets which led to questions and further investigations. Several suspects were identified when detecting trends and outliers in the daily activities of the GAStech employees. Minke Mies engaged in several unusual patterns with outliers in both the card transaction data and the GPS locations, and thus, became the number one suspect who should be questioned first. People who were involved with Minke should be investigated next, including Hennie Osvaldo, Inga Ferro, Loreto Bodrogi, and Isia Vann. Lucas Alcazar was also identified as a main suspect since he participated in the outlier credit card transaction and was seen driving late at night to and from GAStech. The other events that came across as highly suspicious included the two employees sneaking to the hotel during the middle of the day, the gathering at the Carnero House on January 10th, and the meeting at Kronos Capital on January 18th. In total, researchers have identified twelve suspicious patterns with potential suspects and handed over their findings to local authorities. Geospatial visualizations, interactive mapping, and outlier detection were key to figuring out which patterns to pursue to help with the investigation. Hopefully, they catch these kidnappers soon! 
 
 ## CONTRIBUTORS
+[(Back to top)](#table-of-contents)
+<br>
 ### Nicole Menke
 [![](https://github.com/nicolemenke.png?size=50)](https://github.com/nicolemenke)
